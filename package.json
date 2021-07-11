@@ -1,0 +1,22 @@
+{
+  "name": "video_confrencing",
+  "version": "1.0.0",
+  "description": "Video Confrencing Web App Using WebRTC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "simple-peer": "^9.11.0",
+    "socket.io": "^2.3.0",
+    "uuid": "^8.3.2"
+  },
+  "engines": {
+    "node": "12.8"
+  }
+}
