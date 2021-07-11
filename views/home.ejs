@@ -1,0 +1,68 @@
+
+<%- include ('header') -%> 
+
+  </head>
+  <body>
+
+    <h2 class="ml-3 mt-1">Web Meet</h2>
+
+
+    <div class="container mt-5">
+      <h1 class="text-center"></h1>
+
+      
+        <div class="row">
+          
+          <div class="col-md-7 mt-4">
+
+              <h4 >Welcome to the WebRTC Meet</h4>
+              <p>
+                Video Confrence and chat with all your friend no signin
+                required!!
+              </p>
+
+
+              <form class="form-inline mt-5">
+                
+                <div class="input-group">
+                  <button class="btn btn-secondary mr-3" id="create">
+                    <i class="fas fa-video"></i>
+                    Create Room
+                  </button>
+        
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" disabled type="button" id="button-addon1">
+                      <i class="fas fa-keyboard"></i>
+                    </button>
+                  </div>
+
+                  <input class="form-control me-3" type="text" id="roomId" placeholder="Enter the room code" />
+
+                  <button class="btn btn-link d-none" type="submit" id="join" disabled>Join</button>
+                </div>
+
+               
+              </form>
+            
+          </div>
+
+          <div class="col-md-5 mt-4">
+           <div class="video-participant">
+            <h4>Your Video</h4>
+
+                <video class="mt-3 shadow bg-white rounded" id="myVideo" width="360">
+                </video>          
+
+        </div>
+          </div>
+
+        </div>   
+        
+        
+        
+    </div>
+
+    <script src="home.js"></script>
+
+    <%- include ('footer') -%> 
+   

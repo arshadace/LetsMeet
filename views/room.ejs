@@ -1,0 +1,83 @@
+<%- include("header") -%>
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Main Section -->
+
+  <div class="app d-flex">
+    <div class="app-videos flex-column align-items-center d-none">
+      <!-- All videos will stream here -->
+      <div class="d-flex flex-wrap videos" id="consultingRoom"></div>
+
+      <div class="controls">
+        <button id="mic" class="action-button">
+          <span class="material-icons md-48 md-light">mic</span>
+        </button>
+        <button id="videocam" class="action-button">
+          <span class="material-icons md-48 md-light">videocam</span>
+        </button>
+        <button id="chat-btn" class="action-button act-red">
+          <span class="material-icons md-48 md-light">chat</span>
+        </button>
+        <button id="end-call" class="action-button act-red">
+          <span class="material-icons md-48 md-light">call_end</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Message Section -->
+
+    <div class="chat-sec" id="chats">
+      <div class="chat-container">
+        <div class="chat-header">
+          <h5>Team <%= roomId %> Chat</h5>
+          <button class="chat-header-button">Meet</button>
+        </div>
+        <div class="chat-area"></div>
+        <div class="chat-typing-area-wrapper">
+          <div class="chat-typing-area">
+            <textarea
+              name="chat-msg"
+              placeholder="Type your message..."
+              class="chat-input"
+              rows="1"
+              cols="50"
+              wrap="hard"
+            ></textarea>
+            <button class="send-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-send"
+                viewBox="0 0 24 24"
+              >
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var roomNumber = "<%= roomId %>";
+  </script>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+  <script src="simplepeer.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+
+  <%- include ("footer") -%>
+</body>
