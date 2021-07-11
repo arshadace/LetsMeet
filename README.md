@@ -3,6 +3,7 @@ Video Chat App using SimplePeer and Socket.io
 
 Working model - https://powerful-forest-15838.herokuapp.com/
 
+Submitted by Arshad Shikalgar ( arshadshikalgar.191ec245@nitk.edu.in)
 Extra Feautures( other than a minimum of two participants should be able connect with each other using your product to have a video conversation.)
 
 1. More than 2 participants can have a video converssation.
