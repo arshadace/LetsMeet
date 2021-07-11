@@ -1,4 +1,4 @@
-# MicrosoftTeamsClone
+# Microsoft Teams Clone
 Video Chat App using SimplePeer and Socket.io
 
 https://powerful-forest-15838.herokuapp.com/
