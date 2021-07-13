@@ -1,18 +1,21 @@
 # Microsoft Teams Clone
-Video Chat App using SimplePeer and Socket.io
+Video Chat Web App using SimplePeer and Socket.io
 
-Working model - https://powerful-forest-15838.herokuapp.com/
+Website - https://lets-meet-1.herokuapp.com
 
 Submitted by Arshad Shikalgar ( arshadshikalgar.191ec245@nitk.edu.in)
 
 Extra Feautures( other than a minimum of two participants should be able connect with each other using your product to have a video conversation.)
 
-1. More than 2 participants can have a video converssation.
-2. Mute (Audio off), Video off 
-3. Teams Chat (ADOPT PHASE)
-4. User Authentification
-5. Name appears in the chat along with the message and in the bottom of the participant's video
-6. Notifies when someone joins the meet
+1.More than 2 participants can have a video conversation.
+2.Mute (Audio off), Video off
+3.View & Send messages.
+4.Continue the conversation after the meeting.
+5.Start the conversation before the meeting.
+6.Save old chats in the database 
+7.User Authentication
+8.Name appears in the chat along with the message and in the bottom of the participant's video
+9.Notifies when someone joins the meet
 
 Video Chat Implementation-
 
