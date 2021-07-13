@@ -1,23 +1,12 @@
 var create = document.getElementById("create");
-
 var join = document.getElementById("join");
-
 var input = document.getElementById("roomId");
-
-var myVideo = document.getElementById("myVideo");
-
-var form = document.querySelector("form");
+var form = document.querySelector(".form-inline");
+var roomId;
 
 //Stop reloading page on submit
 form.onsubmit = (event) => {
   event.preventDefault();
-};
-
-var roomId;
-
-create.onclick = () => {
-  roomId = Math.floor(Math.random() * 10000 + 1);
-  window.location.href = `/${roomId}`;
 };
 
 join.onclick = () => {
@@ -25,22 +14,45 @@ join.onclick = () => {
   window.location.href = `/${roomId}`;
 };
 
-input.onclick = () => {
+if (auth === "false") {
+  document.getElementById("close-alert").onclick = () => {
+    document.querySelector(".home-alert").classList.add("d-none");
+    document.querySelector(".home-alert").classList.remove("d-flex");
+  };
+}
+
+input.onfocus = () => {
   join.classList.remove("d-none");
+};
+
+input.onblur = () => {
+  if (document.getElementById("roomId").value === "")
+    join.classList.add("d-none");
 };
 
 input.onkeyup = () => {
   join.disabled = false;
-  join.style.color = "green";
+  join.style.color = "white";
+  if (document.getElementById("roomId").value === "") join.disabled = true;
 };
 
-navigator.mediaDevices
-  .getUserMedia({ audio: true, video: true })
-  .then((stream) => {
-    myVideo.srcObject = stream;
-    myVideo.play();
-  })
-  .catch((err) => {
-    myVideo.innerHTML = "Sorry problem connecting media devices";
-    console.log(err);
-  });
+window.addEventListener(
+  "load",
+  function () {
+    var forms = document.getElementsByClassName("needs-validation");
+    var validation = Array.prototype.filter.call(forms, function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  },
+  false
+);

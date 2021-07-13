@@ -17,7 +17,7 @@
         <button id="videocam" class="action-button">
           <span class="material-icons md-48 md-light">videocam</span>
         </button>
-        <button id="chat-btn" class="action-button act-red">
+        <button id="chat-btn" class="action-button">
           <span class="material-icons md-48 md-light">chat</span>
         </button>
         <button id="end-call" class="action-button act-red">
@@ -31,20 +31,23 @@
     <div class="chat-sec" id="chats">
       <div class="chat-container">
         <div class="chat-header">
-          <h5>Team <%= roomId %> Chat</h5>
-          <button class="chat-header-button">Meet</button>
+          <h5>Team <%= roomId %></h5>
+          <div>
+            <a href="/" class="btn btn-link" style="font-size: 1rem"
+              ><i class="fas fa-home"></i>Home</a
+            >
+            <button class="chat-header-button">Meet</button>
+          </div>
         </div>
         <div class="chat-area"></div>
         <div class="chat-typing-area-wrapper">
           <div class="chat-typing-area">
-            <textarea
+            <input
+              type="text"
               name="chat-msg"
               placeholder="Type your message..."
               class="chat-input"
-              rows="1"
-              cols="50"
-              wrap="hard"
-            ></textarea>
+            />
             <button class="send-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -64,9 +67,12 @@
       </div>
     </div>
   </div>
+  <!-- Toasts -->
+  <div id="toasts"></div>
 
   <script>
     var roomNumber = "<%= roomId %>";
+    var userName = "<%= name %>";
   </script>
 
   <script

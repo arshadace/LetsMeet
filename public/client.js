@@ -3,14 +3,20 @@ var myVideo = document.createElement("video");
 var endCall = document.getElementById("end-call");
 var messages = document.querySelector(".chat-area");
 var chat = document.getElementById("chats");
-var userName = "default";
 var stream;
+var peers = [];
+var peersObj = [];
+var streamConstraints = { audio: true, video: true };
+var socket = io();
+var userToName = {};
 
 $(".chat-header-button").on("click", function () {
   startVideoChat();
   $(".app-videos").removeClass("d-none");
+  $("#mic").removeClass("act-red");
+  $("#videocam").removeClass("act-red");
   $(".chat-sec").addClass("chat-sec-in");
-  $("#chat-btn").addClass("act-red");
+  $(".chat-sec").addClass("d-none");
   $(this).addClass("d-none");
 });
 
@@ -50,46 +56,52 @@ endCall.onclick = () => {
   $(".app-videos").addClass("d-none");
 };
 
+//Sending Message
 $(".send-button").click(emitMessage);
+$(".chat-input").keypress(function (event) {
+  if (event.which === 13) emitMessage();
+});
 
 function emitMessage() {
   var $input = $(".chat-input");
   var msg = $input.val();
-  socket.emit("message", msg, socket.id);
+  if (msg !== "" && msg !== null && msg !== undefined) {
+    socket.emit("message", msg);
 
-  addMsg(msg, socket.id);
-  $input.val(null);
+    addMsg(msg, userName, true);
+    $input.val(null);
+  }
 }
-
-var peers = [];
-var peersObj = [];
-var streamConstraints = { audio: true, video: true };
-var socket = io();
-var userToName = {};
 
 //Normal chat group
 socket.emit("join team", roomNumber, userName);
 
+socket.on("all chats", (chats) => {
+  chats.forEach((chat) => {
+    addMsg(chat.msg, chat.name, chat.name === userName);
+  });
+});
 //Recieve messages
-socket.on("messaged", (msg, id) => {
-  addMsg(msg, id);
+socket.on("messaged", (msg, name) => {
+  addMsg(msg, name, false);
 });
 
-function addMsg(msg, id) {
-  var m = createCard(msg, id);
+function addMsg(msg, name, reverse) {
+  var m = createCard(msg, name, reverse);
   messages.appendChild(m);
+  messages.lastElementChild.scrollIntoView();
 }
 
-function createCard(msg, id) {
+function createCard(msg, name, reverse) {
   const card = `<div class = "message-content">
-     <p class = "name"> ${id} </p>
+     <p class = "name"> ${name} </p>
      <p class = "message">${msg}</p>
       </div> `;
 
   var c = document.createElement("div");
   c.innerHTML = card;
   c.classList.add("message-wrapper");
-  if (id === socket.id) c.classList.add("reverse");
+  if (reverse) c.classList.add("reverse");
   return c;
 }
 
@@ -107,12 +119,18 @@ function startVideoChat() {
     var div = document.createElement("div");
     div.className = "video-participant";
     div.appendChild(myVideo);
+    var nametag = document.createElement("span");
+    nametag.innerHTML = `${userName} (You)`;
+    nametag.className = "name-tag";
+    div.appendChild(nametag);
     divConsultRoom.appendChild(div);
-    //Various signaling and adding remote peers
+
+    //Emit Join Room to get other user's info
     socket.emit("join room", roomNumber + "-video", userName);
   });
 }
 
+//Connect to other users
 socket.on("all users", (users, names) => {
   userToName = names;
   users.forEach((userID) => {
@@ -126,6 +144,7 @@ socket.on("all users", (users, names) => {
 });
 
 socket.on("user joined", (payload) => {
+  addToast(payload.userName);
   userToName[payload.callerID] = payload.userName;
   const peer = addPeer(payload.signal, payload.callerID, stream);
   peersObj.push({
@@ -148,6 +167,7 @@ socket.on("user left", (id) => {
   let _peers = peersObj;
   peersObj = _peers.filter((p) => p.peerID !== id);
   peers = peers.filter((p) => p !== _peer.peer);
+  _peer.peer.destroy();
 });
 
 //Some Useful functions
@@ -204,6 +224,12 @@ function addVideo(callerID, stream) {
   div.className = "video-participant";
 
   div.appendChild(video);
+
+  var nametag = document.createElement("span");
+  nametag.innerHTML = userToName[callerID];
+  nametag.className = "name-tag";
+
+  div.appendChild(nametag);
   divConsultRoom.appendChild(div);
 }
 
@@ -231,4 +257,15 @@ function toggleTrack(stream, type) {
       );
     });
   }
+}
+
+function addToast(name) {
+  var div = document.createElement("div");
+  div.className = "snackbar d-flex align-items-center";
+  // $("#toasts").empty();
+  div.innerHTML = `${name} Joined the meet`;
+  document.getElementById("toasts").appendChild(div);
+  setTimeout(() => {
+    $("#toasts").empty();
+  }, 2000);
 }

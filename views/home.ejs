@@ -1,68 +1,232 @@
+<%- include ('header') -%>
+<link rel="stylesheet" href="style.css" />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
+  rel="stylesheet"
+/>
+</head>
+<body style="background: #7d9cd8">
+  <nav
+    class="navbar navbar-expand navbar-light"
+    style="background-color: #7d9cd8"
+  >
+    <div class="container-fluid">
+      <span class="navbar-brand ml-5 mb-0 h1">
+        <img src="images/logo.png" width="200px" alt="Lets Meet">
+      </span>
 
-<%- include ('header') -%> 
-
-  </head>
-  <body>
-
-    <h2 class="ml-3 mt-1">Web Meet</h2>
-
-
-    <div class="container mt-5">
-      <h1 class="text-center"></h1>
-
-      
-        <div class="row">
-          
-          <div class="col-md-7 mt-4">
-
-              <h4 >Welcome to the WebRTC Meet</h4>
-              <p>
-                Video Confrence and chat with all your friend no signin
-                required!!
-              </p>
-
-
-              <form class="form-inline mt-5">
-                
-                <div class="input-group">
-                  <button class="btn btn-secondary mr-3" id="create">
-                    <i class="fas fa-video"></i>
-                    Create Room
-                  </button>
-        
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" disabled type="button" id="button-addon1">
-                      <i class="fas fa-keyboard"></i>
-                    </button>
-                  </div>
-
-                  <input class="form-control me-3" type="text" id="roomId" placeholder="Enter the room code" />
-
-                  <button class="btn btn-link d-none" type="submit" id="join" disabled>Join</button>
-                </div>
-
-               
-              </form>
-            
-          </div>
-
-          <div class="col-md-5 mt-4">
-           <div class="video-participant">
-            <h4>Your Video</h4>
-
-                <video class="mt-3 shadow bg-white rounded" id="myVideo" width="360">
-                </video>          
-
-        </div>
-          </div>
-
-        </div>   
-        
-        
-        
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto mr-5">
+          <% if (!auth) { %>
+          <li class="nav-item">
+            <button
+              class="btn btn-link"
+              style="color: #fff;"
+              data-toggle="modal"
+              data-target="#staticBackdrop1"
+            >
+              Login
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              style="color: #fff;"
+              class="btn btn-link"
+              data-toggle="modal"
+              data-target="#staticBackdrop2"
+            >
+              Register
+            </button>
+          </li>
+          <% } else{ %>
+          <li class="nav-item">
+            <p style="color: #fff;" class="nav-link"><%= user.displayname %></p>
+          </li>
+          <li class="nav-item">
+            <a style="color: #fff;" class="nav-link" href="/user/logout">Log Out</a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <script src="home.js"></script>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop1"
+    data-backdrop="static"
+    data-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Login</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            action="/login"
+            method="POST"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="form-group">
+              <label for="email1">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                name="username"
+                required
+              />
+              <small id="emailHelp" class="form-text text-muted"
+                >We'll never share your email with anyone else.</small
+              >
+              <div class="invalid-feedback">Please provide a valid email.</div>
+            </div>
+            <div class="form-group">
+              <label for="password1">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                required
+              />
+              <div class="invalid-feedback">Password can't be empty!</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <%- include ('footer') -%> 
-   
+  <div
+    class="modal fade"
+    id="staticBackdrop2"
+    data-backdrop="static"
+    data-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            action="/register"
+            method="POST"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="form-group">
+              <label for="password2">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="displayname"
+                required
+              />
+              <div class="invalid-feedback">Please provide a valid name.</div>
+            </div>
+            <div class="form-group">
+              <label for="email2">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                name="username"
+                required
+              />
+              <small id="emailHelp" class="form-text text-muted"
+                >We'll never share your email with anyone else.</small
+              >
+              <div class="invalid-feedback">Please provide a valid email.</div>
+            </div>
+            <div class="form-group">
+              <label for="password2">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                required
+              />
+              <div class="invalid-feedback">Password can't be empty!</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Login Alter -->
+  <% if (!auth) {%>
+  <div class="home-alert d-flex align-items-center">
+    <span>Please Login or Register to Join</span>
+    <span class="material-icons" style="cursor: pointer" id="close-alert">
+      close
+    </span>
+  </div>
+  <% } %>
+
+  <!-- Main Section -->
+
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-md-4 mt-5 ml-5">
+        <h1 class="mt-5" style="font-family: 'DM Serif Display'; font-size: 4rem;">Lets Meet</h1>
+        <p>Video Confrence and chat with all your friends!!</p>
+
+        <form class="form-inline mt-5">
+          <div class="input-group" style="background-color: #fff">
+            <div class="input-group-prepend">
+              <button class="btn" disabled type="button" id="button-addon1">
+                <i class="fas fa-keyboard"></i>
+              </button>
+            </div>
+
+            <input
+              class="form-control me-3"
+              type="text"
+              id="roomId"
+              placeholder="Enter the room code"
+              autocomplete="off"
+            />
+          </div>
+          <button class="btn btn-link d-none" type="submit" id="join" disabled>
+            Join
+          </button>
+        </form>
+      </div>
+      <div class="col-md-7">
+        <img src="./images/background.jpg" width="90%" class="back" alt="Confrence image" />
+      </div>
+    </div>
+  </div>
+  <script>
+    var auth = "<%=auth%>";
+  </script>
+  <script src="home.js"></script>
+
+  <%- include ('footer') -%>
+</body>

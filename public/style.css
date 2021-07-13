@@ -2,8 +2,28 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  opacity: 0;
+  width: 5px;
+}
+::-webkit-scrollbar:hover {
+  opacity: 1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #859ddf;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
 textarea {
   resize: none;
+}
+
+body {
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 button {
@@ -15,6 +35,18 @@ button:focus {
   outline: none;
 }
 
+.input-group {
+  border: 1px solid #3c4043;
+  border-radius: 7px;
+  padding: 3px;
+}
+
+.input-group > * {
+  border: none !important;
+}
+.form-control:focus {
+  box-shadow: none;
+}
 .app {
   width: 100%;
   height: 100vh;
@@ -27,40 +59,43 @@ button:focus {
   display: flex;
   flex: 1;
   width: 100%;
-  padding: 72px 32px 16px 32px;
+  padding: 16px;
 }
 .videos {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
 }
 
 .video-participant {
+  background: #414141;
   border-radius: 16px;
   position: relative;
   overflow: hidden;
+  margin: 10px;
 }
 
 .video-participant:first-child:nth-last-child(1) {
   width: auto;
-  height: 100%;
+  height: calc(100% - 20px);
 }
 .video-participant:first-child:nth-last-child(2),
 .video-participant:first-child:nth-last-child(2) ~ .video-participant {
-  width: 48%;
-  height: 100%;
+  width: calc(48% - 20px);
+  height: calc(100% - 20px);
 }
 
 .video-participant:first-child:nth-last-child(3),
 .video-participant:first-child:nth-last-child(3) ~ .video-participant {
-  width: 32%;
-  height: 100%;
+  width: calc(32% - 20px);
+  height: 70%;
 }
 
 .video-participant:first-child:nth-last-child(4),
 .video-participant:first-child:nth-last-child(4) ~ .video-participant {
-  width: 48%;
+  width: 35%;
   height: 48%;
 }
 
@@ -69,6 +104,16 @@ button:focus {
   height: 100%;
   object-fit: contain;
   object-position: 50% 50%;
+}
+
+.name-tag {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 12px;
 }
 
 .controls {
@@ -114,7 +159,7 @@ button:focus {
 }
 .chat-header-button {
   border-radius: 0.4rem;
-  padding: 0 0.6rem 0 32px;
+  padding: 2px 0.6rem 4px 32px;
   background: #fff;
   color: #242424;
   font-weight: 600;
@@ -154,6 +199,10 @@ button:focus {
   color: rgba(0, 0, 0, 0.5);
 }
 
+.message-wrapper.reverse .name {
+  text-align: right;
+}
+
 .message {
   margin-top: 8px;
   background-color: #2c3046;
@@ -161,7 +210,6 @@ button:focus {
   border-radius: 0 12px 12px 12px;
   font-size: 12px;
   line-height: 16px;
-  max-width: calc(100% - 32px);
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -222,21 +270,30 @@ button:focus {
   width: 90%;
 }
 
-.card {
-  width: 80%;
-  height: auto;
-  margin-left: 10px;
+.home-alert,
+.snackbar {
+  width: 344px;
+  height: 48px;
+  position: absolute;
+  z-index: 100;
   border-radius: 5px;
-  border-color: green;
+  padding: 6px 16px;
 }
 
-small {
-  margin-bottom: 0;
+.home-alert {
+  background-color: #242424;
+  color: #fff;
+  bottom: 32px;
+  left: 40vw;
+  justify-content: space-between;
+  font-size: 0.9rem;
 }
 
-.card-body {
-  margin: 0;
-  padding: 5px 14px;
+.snackbar {
+  background-color: #fff;
+  color: #000;
+  bottom: 32px;
+  right: 32px;
 }
 
 /* action buttons */
